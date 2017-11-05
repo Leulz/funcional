@@ -30,9 +30,34 @@ encode [] = []
 encode (x:xs) = [(x,1+meuLength(filter (==x) xs))] ++ encode (filter (/=x) xs)
 
 --ver como fazer recursivamente
-split xs = [take i xs] ++ [drop i xs]
+split xs i = [take i xs] ++ [drop i xs]
 
+slice xs imin imax = take (imax-imin+1) (drop (imin-1) xs)
 
+insertAt el pos xs = take (pos-1) xs ++ [el] ++ drop (pos-1) xs
+
+minList [x] = x
+minList (x:xs) = if (x < (minList xs)) then x else minList xs
+
+remove e (x:xs) | e == x = xs
+                | otherwise = x:(remove e xs)
+sort [] = []
+sort xs = x:ys 
+    where
+        x = minList xs
+        ys = sort (remove x xs)
+
+mySum xs = foldr (+) 0 xs
+
+maxList [] = error "Lista vazia"
+maxList (x:xs) = foldr (max) x xs
+
+buildPalindrome xs = xs ++ meuReverso xs
+
+mean :: [Int] -> Int
+mean xs = (mySum xs) `div` meuLength xs
+
+myAppend xs ys = foldr (:) ys xs 
 
 main = do
-  print(split [1,2,1,8,34,12,8])
+  print(myAppend [4,2,3] [5,6,7])
